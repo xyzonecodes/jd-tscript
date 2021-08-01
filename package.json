@@ -1,0 +1,27 @@
+{
+  "name": "jd-tscript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "zx_cfdtx.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xyzonecodes/jd-tscript.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xyzonecodes/jd-tscript/issues"
+  },
+  "homepage": "https://github.com/xyzonecodes/jd-tscript#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "crypto-js": "^4.1.1",
+    "date-fns": "^2.23.0",
+    "got": "^11.8.2",
+    "tough-cookie": "^4.0.0",
+    "ts-md5": "^1.2.9"
+  }
+}
