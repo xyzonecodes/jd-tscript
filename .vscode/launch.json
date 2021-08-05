@@ -5,13 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "pwa-node",
+            "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "启动程序",
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\zx_cfdtx.ts",
+            "program": "${workspaceFolder}\\src\\zx_joy_park.ts",
+            "sourceMaps": true,
             "outFiles": [
                 "${workspaceFolder}/**/*.js"
             ]

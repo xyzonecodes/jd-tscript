@@ -58,13 +58,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.format = exports.axios = void 0;
+exports.USER_AGENT = exports.format = exports.axios = void 0;
 var date_fns_1 = require("date-fns");
 Object.defineProperty(exports, "format", { enumerable: true, get: function () { return date_fns_1.format; } });
 var axios_1 = __importDefault(require("axios"));
 exports.axios = axios_1.default;
 var ts_md5_1 = require("ts-md5");
 var zx_USER_AGENTS_1 = __importDefault(require("./zx_USER_AGENTS"));
+exports.USER_AGENT = zx_USER_AGENTS_1.default;
 var dotenv = __importStar(require("dotenv"));
 var CryptoJS = require('crypto-js');
 var jdCookieNode = require('./jdCookie');
@@ -123,7 +124,7 @@ var ZxObject = /** @class */ (function () {
         this.formatShareCode = function () { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 //助力码待处理
-                if (this.jsname) {
+                if (this.jsname && shareCodes.shareCodes && shareCodes.shareCodes.hasOwnProperty(this.jsname)) {
                     this.shareCode = shareCodes.shareCodes[this.jsname];
                 }
                 if (this.shareCode && this.shareCode.length > 0) {

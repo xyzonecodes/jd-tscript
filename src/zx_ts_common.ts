@@ -58,7 +58,7 @@ class ZxObject {
   //处理sharecode
   formatShareCode = async () => {
     //助力码待处理
-    if (this.jsname) {
+    if (this.jsname&&shareCodes.shareCodes&&shareCodes.shareCodes.hasOwnProperty(this.jsname)) {
       this.shareCode = shareCodes.shareCodes[this.jsname];
     }
     if (this.shareCode && this.shareCode.length > 0) {
@@ -232,7 +232,7 @@ class ZxObject {
     })
   }
 
-  get(opts, callback = (err: any, resp: any, data: any) => { }) {
+  get(opts:any, callback = (err: any, resp: any, data: any) => { }) {
     // 如果指定了请求体, 但没指定`Content-Type`, 则自动生成
     if (opts.body && opts.headers && !opts.headers['Content-Type']) {
       opts.headers['Content-Type'] = 'application/x-www-form-urlencoded'
@@ -295,6 +295,7 @@ let $ = new ZxObject();
 export default $;
 export {
   axios,
-  format
+  format,
+  USER_AGENT
 }
 
