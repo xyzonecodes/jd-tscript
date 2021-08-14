@@ -171,6 +171,7 @@ class ZxObject {
       i += e[Math.random() * e.length | 0];
     return (i + Date.now()).slice(0, 16)
   }
+  
 
   getBeanShareCode = async function (cookie: string) {
     let { data } = await axios.post('https://api.m.jd.com/client.action',
