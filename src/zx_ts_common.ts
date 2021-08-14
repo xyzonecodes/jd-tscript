@@ -58,7 +58,7 @@ class ZxObject {
   //处理sharecode
   formatShareCode = async () => {
     //助力码待处理
-    if (this.jsname&&shareCodes.shareCodes&&shareCodes.shareCodes.hasOwnProperty(this.jsname)) {
+    if (this.jsname && shareCodes.shareCodes && shareCodes.shareCodes.hasOwnProperty(this.jsname)) {
       this.shareCode = shareCodes.shareCodes[this.jsname];
     }
     if (this.shareCode && this.shareCode.length > 0) {
@@ -171,9 +171,9 @@ class ZxObject {
       i += e[Math.random() * e.length | 0];
     return (i + Date.now()).slice(0, 16)
   }
-  
 
-  getBeanShareCode = async function (cookie: string) {
+
+  getBeanShareCode = async (cookie: string) {
     let { data } = await axios.post('https://api.m.jd.com/client.action',
       `functionId=plantBeanIndex&body=${escape(
         JSON.stringify({ version: "9.0.0.1", "monitor_source": "plant_app_plant_index", "monitor_refer": "" })
@@ -192,7 +192,7 @@ class ZxObject {
       return ''
   }
 
-  getFarmShareCode = async function (cookie: string) {
+  getFarmShareCode = async (cookie: string) {
     let { data } = await axios.post('https://api.m.jd.com/client.action?functionId=initForFarm', `body=${escape(JSON.stringify({ "version": 4 }))}&appid=wh5&clientVersion=9.1.0`, {
       headers: {
         "cookie": this.cookie,
@@ -269,7 +269,7 @@ class ZxObject {
     })
   }
 
-  get(opts:any, callback = (err: any, resp: any, data: any) => { }) {
+  get(opts: any, callback = (err: any, resp: any, data: any) => { }) {
     // 如果指定了请求体, 但没指定`Content-Type`, 则自动生成
     if (opts.body && opts.headers && !opts.headers['Content-Type']) {
       opts.headers['Content-Type'] = 'application/x-www-form-urlencoded'

@@ -20,9 +20,12 @@ console.log('帮助HelloWorld:', HELP_HW)
 let HELP_POOL: string = process.env.HELP_POOL ? process.env.HELP_POOL : "false";
 console.log('帮助助力池:', HELP_POOL)
 
+
+$.init("京喜牧场", 'jxmc', -1);
+
 !(async () => {
     await $.requestAlgo();
-    $.dowork(async function () {
+    await $.dowork(async function () {
         if (!$.isLogin) {
             $.notify.sendNotify(__filename.split('/').pop(), `cookie已失效\n京东账号${$.index}：${$.nickName || $.userName}`)
             return
@@ -59,16 +62,16 @@ console.log('帮助助力池:', HELP_POOL)
         console.log('金币:', coins);
 
         // 收牛牛
-        res = await api('operservice/GetCoin', 'channel,sceneid,token', { token: A(lastgettime) })
+        res = await api('operservice/GetCoin', 'activeid,channel,sceneid,token', { token: A(lastgettime), activeid: 'jxmc_active_0001'  })
         if (res.ret === 0)
             console.log('收牛牛：', res.data.addcoin)
 
         // 签到
-        res = await api('queryservice/GetSignInfo', 'channel,sceneid')
+        res = await api('queryservice/GetSignInfo', 'activeid,channel,sceneid')
         if (res.data.signlist) {
             for (let day of res.data.signlist) {
                 if (day.fortoday && !day.hasdone) {
-                    res = await api('operservice/GetSignReward', 'channel,currdate,sceneid', { currdate: res.data.currdate })
+                    res = await api('operservice/GetSignReward', 'activeid,channel,currdate,sceneid', { currdate: res.data.currdate, activeid: 'jxmc_active_0001' })
                     if (res.ret === 0) {
                         console.log('签到成功!')
                     } else {
@@ -92,7 +95,7 @@ console.log('帮助助力池:', HELP_POOL)
             }
         }
         while (coins >= 5000 && food <= 500) {
-            res = await api('operservice/Buy', 'channel,sceneid,type', { type: '1' })
+            res = await api('operservice/Buy', 'activeid,channel,sceneid,type', { type: '1', activeid: 'jxmc_active_0001' })
             if (res.ret === 0) {
                 console.log('买草成功:', res.data.newnum)
                 coins -= 5000
@@ -105,14 +108,14 @@ console.log('帮助助力池:', HELP_POOL)
         }
         await $.sleep(2000)
         while (food >= 10) {
-            res = await api('operservice/Feed', 'channel,sceneid')
+            res = await api('operservice/Feed', 'activeid,channel,sceneid', { activeid: 'jxmc_active_0001' })
             if (res.ret === 0) {
                 food -= 10
                 console.log('剩余草:', res.data.newnum)
             } else if (res.ret === 2020) {
                 if (res.data.maintaskId === 'pause') {
                     console.log('收🥚')
-                    res = await api('operservice/GetSelfResult', 'channel,itemid,sceneid,type', { petid: petid, type: '11' })
+                    res = await api('operservice/GetSelfResult', 'activeid,channel,itemid,sceneid,type', { petid: petid, type: '11', activeid: 'jxmc_active_0001' })
                     if (res.ret === 0) {
                         console.log('收🥚成功:', res.data.newnum)
                     }
@@ -127,7 +130,7 @@ console.log('帮助助力池:', HELP_POOL)
 
         while (1) {
             try {
-                res = await api('operservice/Action', 'channel,sceneid,type', { type: '2' })
+                res = await api('operservice/Action', 'activeid,channel,sceneid,type', { type: '2', activeid: 'jxmc_active_0001' })
                 if (res.data.addcoins === 0) break
                 console.log('锄草:', res.data.addcoins)
                 await $.sleep(1500)
@@ -140,7 +143,7 @@ console.log('帮助助力池:', HELP_POOL)
 
         while (1) {
             try {
-                res = await api('operservice/Action', 'channel,sceneid,type', { type: '1', petid: petid })
+                res = await api('operservice/Action', 'activeid,channel,sceneid,type', { type: '1', petid: petid, activeid: 'jxmc_active_0001' })
                 if (res.data.addcoins === 0) break
                 console.log('挑逗:', res.data.addcoins)
                 await $.sleep(1500)
@@ -180,10 +183,10 @@ console.log('帮助助力池:', HELP_POOL)
     }
     */
 
-    $.dowork(async function () {
+    await $.dowork(async function () {
         for (let j = 0; j < shareCodes.length; j++) {
-            console.log(`账号${$.index + 1}去助力${shareCodes[j]}`)
-            res = await api('operservice/EnrollFriend', 'channel,sceneid,sharekey', { sharekey: shareCodes[j] })
+            console.log(`账号${$.index}去助力${shareCodes[j]}`)
+            res = await api('operservice/EnrollFriend', 'activeid,channel,sceneid,sharekey', { sharekey: shareCodes[j], activeid: 'jxmc_active_0001' })
             if (res.data.result === 1) {
                 console.log('不助力自己')
             } else if (res.ret === 0) {
@@ -201,6 +204,7 @@ console.log('帮助助力池:', HELP_POOL)
 interface Params {
     isgift?: number,
     petid?: number,
+    activeid?: string,
     type?: string,
     taskId?: number
     configExtra?: string,
