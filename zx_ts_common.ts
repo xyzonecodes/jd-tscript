@@ -172,6 +172,42 @@ class ZxObject {
     return (i + Date.now()).slice(0, 16)
   }
 
+  getBeanShareCode = async function (cookie: string) {
+    let { data } = await axios.post('https://api.m.jd.com/client.action',
+      `functionId=plantBeanIndex&body=${escape(
+        JSON.stringify({ version: "9.0.0.1", "monitor_source": "plant_app_plant_index", "monitor_refer": "" })
+      )}&appid=ld&client=apple&area=5_274_49707_49973&build=167283&clientVersion=9.1.0`, {
+      headers: {
+        Cookie: this.cookie,
+        Host: "api.m.jd.com",
+        Accept: "*/*",
+        Connection: "keep-alive",
+        "User-Agent": USER_AGENT
+      }
+    })
+    if (data.data?.jwordShareInfo?.shareUrl)
+      return data.data.jwordShareInfo.shareUrl.split('Uuid=')![1]
+    else
+      return ''
+  }
+
+  getFarmShareCode = async function (cookie: string) {
+    let { data } = await axios.post('https://api.m.jd.com/client.action?functionId=initForFarm', `body=${escape(JSON.stringify({ "version": 4 }))}&appid=wh5&clientVersion=9.1.0`, {
+      headers: {
+        "cookie": this.cookie,
+        "origin": "https://home.m.jd.com",
+        "referer": "https://home.m.jd.com/myJd/newhome.action",
+        "User-Agent": USER_AGENT,
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    })
+
+    if (data.farmUserPro)
+      return data.farmUserPro.shareCode
+    else
+      return ''
+  }
+
   TotalBean = async () => {
     let totalBean = {
       isLogin: true,
